@@ -1,0 +1,38 @@
+# Supreme AI Council - Python Dependencies
+
+# Telegram Bot
+python-telegram-bot==20.7
+python-telegram-bot[webhooks]==20.7
+
+# Anthropic Claude SDK (Antigravity agents)
+anthropic==0.39.0
+
+# Notion Integration
+notion-client==2.2.1
+
+# Environment & Configuration
+python-dotenv==1.0.0
+
+# Async Support
+aiohttp==3.9.1
+asyncio==3.4.3
+
+# Logging & Monitoring
+structlog==24.1.0
+python-json-logger==2.0.7
+
+# Security (for your telegram_auth.py)
+cryptography==42.0.0
+
+# Utilities
+pytz==2024.1
+dateutil==2.8.2
+pydantic==2.5.3
+
+# MCP (Model Context Protocol) - if using official MCP SDK
+# mcp==0.1.0  # Uncomment when MCP SDK is stable
+
+# Development Tools (optional)
+# black==23.12.1
+# pytest==7.4.3
+# pytest-asyncio==0.23.2
