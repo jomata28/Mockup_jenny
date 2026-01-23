@@ -1,0 +1,32 @@
+{
+  "name": "Vulkain",
+  "description": "System infrastructure architect and 24/7 operations specialist",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/Vulkain.md",
+  "temperature": 0.4,
+  "max_tokens": 4096,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Full access to all databases for system management"
+    }
+  ],
+  "capabilities": [
+    "system_monitoring",
+    "mcp_management",
+    "database_optimization",
+    "automation_engineering",
+    "integration_management"
+  ],
+  "routing": {
+    "can_delegate_to": [],
+    "can_consult": ["jeni"]
+  },
+  "metadata": {
+    "pillar": "infrastructure",
+    "role": "system",
+    "access_level": "admin"
+  }
+}

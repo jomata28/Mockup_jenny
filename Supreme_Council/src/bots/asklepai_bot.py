@@ -10,10 +10,7 @@ class AsklepaiBot(BaseBot):
     """Asklepai - Medical knowledge specialist and clinical mentor"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="Asklepai",
-            system_prompt_path="Asklepai.md"
-        )
+        super().__init__(agent_name="Asklepai")
 
     def _get_agent_intro(self) -> str:
         """Asklepai's introduction message"""

@@ -1,5 +1,6 @@
 """
 Base Bot Class - Common functionality for all Supreme Council agents
+ANTIGRAVITY VERSION - Uses Antigravity Runtime for agent management
 """
 
 import os
@@ -12,52 +13,41 @@ from telegram.ext import (
     filters,
     ContextTypes
 )
-from anthropic import Anthropic
 
 # Import auth module
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from auth.telegram_auth import TelegramAuth
 
+# Import Antigravity Runtime
+from src.agents.antigravity_runtime import get_runtime
+
 
 class BaseBot:
-    """Base class for all Supreme Council agent bots"""
+    """Base class for all Supreme Council agent bots - Antigravity powered"""
 
-    def __init__(self, agent_name: str, system_prompt_path: str):
+    def __init__(self, agent_name: str):
         """
         Initialize base bot
 
         Args:
-            agent_name: Name of the agent (e.g., "JENI", "Aristóteles")
-            system_prompt_path: Path to the agent's system prompt markdown file
+            agent_name: Name of the agent (e.g., "JENI", "Aristoteles")
         """
         self.agent_name = agent_name
         self.logger = logging.getLogger(f"Bot.{agent_name}")
 
-        # Initialize Anthropic client for Claude API
-        self.anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        # Get Antigravity runtime (singleton)
+        self.runtime = get_runtime()
 
-        # Load system prompt
-        self.system_prompt = self._load_system_prompt(system_prompt_path)
+        # Verify agent is loaded in runtime
+        self.agent = self.runtime.get_agent(agent_name)
+        if not self.agent:
+            raise ValueError(f"Agent '{agent_name}' not found in Antigravity runtime")
 
         # Initialize authentication
         self.auth = TelegramAuth()
 
-        self.logger.info(f"{agent_name} bot initialized")
-
-    def _load_system_prompt(self, path: str) -> str:
-        """Load agent's system prompt from markdown file"""
-        try:
-            full_path = os.path.join(
-                os.path.dirname(__file__), '..', '..', '.agent', 'rules', path
-            )
-            with open(full_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-                self.logger.info(f"Loaded system prompt from {path} ({len(content)} chars)")
-                return content
-        except Exception as e:
-            self.logger.error(f"Failed to load system prompt: {e}")
-            return f"You are {self.agent_name}, a helpful AI assistant."
+        self.logger.info(f"{agent_name} bot initialized with Antigravity")
 
     def setup_handlers(self, application: Application):
         """Setup Telegram command and message handlers"""
@@ -197,35 +187,30 @@ Just send me a message after authenticating, and I'll respond based on my specia
 
     async def _get_ai_response(self, user_message: str, user_id: int) -> str:
         """
-        Get AI response using Claude API with agent's system prompt
+        Get AI response using Antigravity Runtime
 
         Args:
             user_message: User's message text
             user_id: Telegram user ID
 
         Returns:
-            AI-generated response
+            AI-generated response from Antigravity agent
         """
         try:
-            # Call Claude API
-            message = self.anthropic.messages.create(
-                model="claude-sonnet-4-20250514",  # Latest Claude model
-                max_tokens=4096,
-                system=self.system_prompt,
-                messages=[
-                    {"role": "user", "content": user_message}
-                ]
+            # Route message through Antigravity runtime
+            response_text = await self.runtime.route_message(
+                agent_name=self.agent_name,
+                user_id=user_id,
+                message=user_message,
+                context=None  # TODO: Add Notion context if needed
             )
-
-            # Extract response text
-            response_text = message.content[0].text
 
             self.logger.info(f"Generated response for user {user_id} ({len(response_text)} chars)")
 
             return response_text
 
         except Exception as e:
-            self.logger.error(f"Claude API error: {e}")
+            self.logger.error(f"Antigravity runtime error: {e}")
             raise
 
     # ==========================================

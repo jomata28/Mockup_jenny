@@ -1,0 +1,32 @@
+{
+  "name": "Seshait",
+  "description": "Financial sovereignty architect and wealth strategist",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/Seshait.md",
+  "temperature": 0.6,
+  "max_tokens": 4096,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Access to financial tracking and business databases"
+    }
+  ],
+  "capabilities": [
+    "financial_planning",
+    "business_tracking",
+    "investment_strategy",
+    "wealth_building",
+    "income_optimization"
+  ],
+  "routing": {
+    "can_delegate_to": [],
+    "can_consult": ["jeni"]
+  },
+  "metadata": {
+    "pillar": "financial_sovereignty",
+    "role": "specialist",
+    "access_level": "financial"
+  }
+}

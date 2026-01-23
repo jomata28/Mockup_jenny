@@ -10,10 +10,7 @@ class AristotelesBot(BaseBot):
     """Aristóteles - Your strategic life mentor and philosophical guide"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="Aristóteles",
-            system_prompt_path="Aristoteles.md"
-        )
+        super().__init__(agent_name="Aristoteles")
 
     def _get_agent_intro(self) -> str:
         """Aristóteles' introduction message"""

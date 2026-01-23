@@ -10,10 +10,7 @@ class VulkainBot(BaseBot):
     """Vulkain - System infrastructure and operations specialist"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="Vulkain",
-            system_prompt_path="Vulkain.md"
-        )
+        super().__init__(agent_name="Vulkain")
 
     def _get_agent_intro(self) -> str:
         """Vulkain's introduction message"""

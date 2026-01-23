@@ -10,10 +10,7 @@ class AirquimidesBot(BaseBot):
     """Airquimides - Research specialist and academic writing expert"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="Airquimides",
-            system_prompt_path="Airquimides.md"
-        )
+        super().__init__(agent_name="Airquimides")
 
     def _get_agent_intro(self) -> str:
         """Airquimides' introduction message"""

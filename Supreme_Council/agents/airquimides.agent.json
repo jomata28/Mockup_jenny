@@ -1,0 +1,32 @@
+{
+  "name": "Airquimides",
+  "description": "Research specialist and scientific legacy architect",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/Airquimides.md",
+  "temperature": 0.6,
+  "max_tokens": 8192,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Access to research project databases"
+    }
+  ],
+  "capabilities": [
+    "literature_review",
+    "academic_writing",
+    "research_methodology",
+    "grant_writing",
+    "publication_strategy"
+  ],
+  "routing": {
+    "can_delegate_to": [],
+    "can_consult": ["jeni", "asklepai"]
+  },
+  "metadata": {
+    "pillar": "scientific_legacy",
+    "role": "specialist",
+    "access_level": "research"
+  }
+}

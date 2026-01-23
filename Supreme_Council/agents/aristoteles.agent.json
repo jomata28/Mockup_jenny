@@ -1,0 +1,32 @@
+{
+  "name": "Aristoteles",
+  "description": "Strategic life mentor and guardian of the Five Pillars",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/Aristoteles.md",
+  "temperature": 0.8,
+  "max_tokens": 8192,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Access to Notion databases for pillar alignment tracking"
+    }
+  ],
+  "capabilities": [
+    "strategic_guidance",
+    "philosophical_counsel",
+    "pillar_alignment",
+    "decision_frameworks",
+    "long_term_planning"
+  ],
+  "routing": {
+    "can_delegate_to": [],
+    "can_consult": ["jeni"]
+  },
+  "metadata": {
+    "pillar": "all",
+    "role": "mentor",
+    "access_level": "strategic"
+  }
+}

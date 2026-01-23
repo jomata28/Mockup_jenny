@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Supreme AI Council - Multi-Agent Telegram Bot System
+ANTIGRAVITY VERSION - Powered by Antigravity Agent Runtime
 Main entry point that launches all agent bots
 """
 
@@ -10,6 +11,9 @@ import asyncio
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Application
+
+# Import Antigravity Runtime
+from src.agents.antigravity_runtime import get_runtime
 
 # Import bot handlers
 from src.bots.jeni_bot import JeniBot
@@ -36,6 +40,11 @@ class SupremeCouncil:
 
         self.environment = os.getenv('ENVIRONMENT', 'development')
         self.use_webhook = os.getenv('USE_WEBHOOK', 'false').lower() == 'true'
+
+        # Initialize Antigravity Runtime (loads all agents)
+        logger.info("🚀 Initializing Antigravity Runtime...")
+        self.runtime = get_runtime()
+        logger.info(f"✅ Antigravity Runtime loaded with {len(self.runtime.list_agents())} agents")
 
         # Initialize bot registry
         self.bots = {}

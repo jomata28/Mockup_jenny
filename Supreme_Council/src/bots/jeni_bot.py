@@ -1,6 +1,7 @@
 """
 JENI Bot - Primary Personal AI Assistant
 Executive coordinator who can delegate to all specialist agents
+ANTIGRAVITY VERSION
 """
 
 from .base_bot import BaseBot
@@ -10,10 +11,7 @@ class JeniBot(BaseBot):
     """JENI - Your primary personal AI assistant and task coordinator"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="JENI",
-            system_prompt_path="JENI.md"
-        )
+        super().__init__(agent_name="JENI")
 
     def _get_agent_intro(self) -> str:
         """JENI's introduction message"""

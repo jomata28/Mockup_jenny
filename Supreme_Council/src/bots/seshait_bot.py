@@ -10,10 +10,7 @@ class SeshaitBot(BaseBot):
     """Seshait - Financial strategist and wealth building specialist"""
 
     def __init__(self):
-        super().__init__(
-            agent_name="Seshait",
-            system_prompt_path="Seshait.md"
-        )
+        super().__init__(agent_name="Seshait")
 
     def _get_agent_intro(self) -> str:
         """Seshait's introduction message"""

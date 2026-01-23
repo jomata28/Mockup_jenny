@@ -1,0 +1,32 @@
+{
+  "name": "Asklepai",
+  "description": "Medical knowledge specialist and clinical excellence mentor",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/Asklepai.md",
+  "temperature": 0.5,
+  "max_tokens": 8192,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Access to medical tracking databases"
+    }
+  ],
+  "capabilities": [
+    "clinical_support",
+    "medical_education",
+    "cme_tracking",
+    "literature_review",
+    "case_discussions"
+  ],
+  "routing": {
+    "can_delegate_to": [],
+    "can_consult": ["jeni", "airquimides"]
+  },
+  "metadata": {
+    "pillar": "healing_mastery",
+    "role": "specialist",
+    "access_level": "medical"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "JENI",
+  "description": "Primary Personal AI Assistant and executive coordinator",
+  "version": "1.0.0",
+  "model": "claude-sonnet-4-20250514",
+  "system_prompt_file": "../.agent/rules/JENI.md",
+  "temperature": 0.7,
+  "max_tokens": 4096,
+  "tools": [
+    {
+      "type": "mcp",
+      "server": "notion",
+      "description": "Access to Notion databases (Hugain, Manai, Odyssai, WuWai)"
+    }
+  ],
+  "capabilities": [
+    "task_coordination",
+    "agent_delegation",
+    "notion_integration",
+    "daily_briefings",
+    "goal_tracking"
+  ],
+  "routing": {
+    "can_delegate_to": [
+      "aristoteles",
+      "asklepai",
+      "airquimides",
+      "seshait",
+      "vulkain"
+    ]
+  },
+  "metadata": {
+    "pillar": "all",
+    "role": "coordinator",
+    "access_level": "full"
+  }
+}
