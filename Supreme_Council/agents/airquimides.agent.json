@@ -2,7 +2,7 @@
   "name": "Airquimides",
   "description": "Research specialist and scientific legacy architect",
   "version": "1.0.0",
-  "model": "claude-sonnet-4-20250514",
+  "model": "gemini-1.5-pro",
   "system_prompt_file": "../.agent/rules/Airquimides.md",
   "temperature": 0.6,
   "max_tokens": 8192,

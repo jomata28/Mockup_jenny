@@ -4,8 +4,8 @@
 python-telegram-bot==20.7
 python-telegram-bot[webhooks]==20.7
 
-# Anthropic Claude SDK (for Antigravity agents)
-anthropic==0.39.0
+# Google Gemini SDK (for Antigravity agents)
+google-generativeai==0.8.3
 
 # Notion Integration
 notion-client==2.2.1

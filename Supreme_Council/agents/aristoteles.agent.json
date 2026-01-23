@@ -2,7 +2,7 @@
   "name": "Aristoteles",
   "description": "Strategic life mentor and guardian of the Five Pillars",
   "version": "1.0.0",
-  "model": "claude-sonnet-4-20250514",
+  "model": "gemini-1.5-pro",
   "system_prompt_file": "../.agent/rules/Aristoteles.md",
   "temperature": 0.8,
   "max_tokens": 8192,

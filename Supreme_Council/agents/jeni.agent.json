@@ -2,7 +2,7 @@
   "name": "JENI",
   "description": "Primary Personal AI Assistant and executive coordinator",
   "version": "1.0.0",
-  "model": "claude-sonnet-4-20250514",
+  "model": "gemini-1.5-pro",
   "system_prompt_file": "../.agent/rules/JENI.md",
   "temperature": 0.7,
   "max_tokens": 4096,

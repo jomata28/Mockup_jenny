@@ -1,6 +1,7 @@
 """
-Antigravity Runtime Manager
+Antigravity Runtime Manager - GEMINI VERSION
 Manages agent lifecycle, configuration loading, and message routing
+Uses Google Gemini API instead of Anthropic Claude
 """
 
 import os
@@ -8,7 +9,7 @@ import json
 import logging
 from typing import Dict, Optional, List, Any
 from pathlib import Path
-from anthropic import Anthropic, AsyncAnthropic
+import google.generativeai as genai
 
 
 class AgentConfig:
@@ -50,23 +51,34 @@ class AgentConfig:
 class AntigravityAgent:
     """
     Antigravity Agent Instance
-    Wraps Anthropic Claude API with agent-specific configuration
+    Wraps Google Gemini API with agent-specific configuration
     """
 
-    def __init__(self, config: AgentConfig, anthropic_client: AsyncAnthropic):
+    def __init__(self, config: AgentConfig):
         """
         Initialize agent with configuration
 
         Args:
             config: AgentConfig instance
-            anthropic_client: Async Anthropic client
         """
         self.config = config
-        self.client = anthropic_client
         self.logger = logging.getLogger(f"Agent.{config.name}")
 
-        # Conversation history per user (simple in-memory for now)
-        self.conversations: Dict[int, List[Dict]] = {}
+        # Initialize Gemini model with configuration
+        generation_config = {
+            "temperature": config.temperature,
+            "max_output_tokens": config.max_tokens,
+        }
+
+        # Create Gemini model instance
+        self.model = genai.GenerativeModel(
+            model_name=config.model,
+            generation_config=generation_config,
+            system_instruction=config.system_prompt
+        )
+
+        # Conversation history per user (Gemini chat sessions)
+        self.chat_sessions: Dict[int, Any] = {}
 
         self.logger.info(f"Agent '{config.name}' initialized (model: {config.model})")
 
@@ -87,39 +99,22 @@ class AntigravityAgent:
         Returns:
             Agent's response
         """
-        # Get or create conversation history for this user
-        if user_id not in self.conversations:
-            self.conversations[user_id] = []
+        # Get or create chat session for this user
+        if user_id not in self.chat_sessions:
+            self.chat_sessions[user_id] = self.model.start_chat(history=[])
 
-        # Add user message to history
-        self.conversations[user_id].append({
-            "role": "user",
-            "content": message
-        })
+        chat = self.chat_sessions[user_id]
 
-        # Build system prompt with context if provided
-        system_prompt = self.config.system_prompt
+        # Add context to message if provided
         if context:
-            system_prompt += f"\n\n## Current Context\n{json.dumps(context, indent=2)}"
+            message = f"{message}\n\n## Current Context\n{json.dumps(context, indent=2)}"
 
         try:
-            # Call Claude API
-            response = await self.client.messages.create(
-                model=self.config.model,
-                max_tokens=self.config.max_tokens,
-                temperature=self.config.temperature,
-                system=system_prompt,
-                messages=self.conversations[user_id][-10:]  # Keep last 10 messages for context
-            )
+            # Send message to Gemini
+            response = chat.send_message(message)
 
-            # Extract assistant response
-            assistant_message = response.content[0].text
-
-            # Add to conversation history
-            self.conversations[user_id].append({
-                "role": "assistant",
-                "content": assistant_message
-            })
+            # Extract response text
+            assistant_message = response.text
 
             self.logger.info(f"Response generated for user {user_id} ({len(assistant_message)} chars)")
 
@@ -131,8 +126,8 @@ class AntigravityAgent:
 
     def clear_history(self, user_id: int):
         """Clear conversation history for a user"""
-        if user_id in self.conversations:
-            del self.conversations[user_id]
+        if user_id in self.chat_sessions:
+            del self.chat_sessions[user_id]
             self.logger.info(f"Cleared conversation history for user {user_id}")
 
     def get_capabilities(self) -> List[str]:
@@ -148,24 +143,25 @@ class AntigravityAgent:
 class AntigravityRuntime:
     """
     Antigravity Runtime Manager
-    Central orchestrator for all agents
+    Central orchestrator for all agents - GEMINI VERSION
     """
 
     def __init__(self):
-        """Initialize Antigravity runtime"""
+        """Initialize Antigravity runtime with Gemini"""
         self.logger = logging.getLogger("AntigravityRuntime")
 
-        # Initialize Anthropic client
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        # Initialize Gemini client
+        api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            raise ValueError("ANTHROPIC_API_KEY not found in environment")
+            raise ValueError("GEMINI_API_KEY not found in environment")
 
-        self.anthropic = AsyncAnthropic(api_key=api_key)
+        # Configure Gemini
+        genai.configure(api_key=api_key)
 
         # Agent registry
         self.agents: Dict[str, AntigravityAgent] = {}
 
-        self.logger.info("Antigravity Runtime initialized")
+        self.logger.info("Antigravity Runtime initialized with Gemini")
 
     def load_agent(self, config_path: str) -> str:
         """
@@ -182,7 +178,7 @@ class AntigravityRuntime:
             config = AgentConfig(config_path)
 
             # Create agent instance
-            agent = AntigravityAgent(config, self.anthropic)
+            agent = AntigravityAgent(config)
 
             # Register agent
             self.agents[config.name.lower()] = agent
