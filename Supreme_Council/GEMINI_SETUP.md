@@ -6,15 +6,16 @@ This guide will help you set up and run your Supreme AI Council using Google's G
 
 ---
 
-## Why Gemini 2.0?
+## Why Gemini 2.5?
 
 ✅ **FREE TIER**: 15 requests/minute, 1500 requests/day (generous!)
-✅ **LATEST MODEL**: Gemini 2.0 Flash Experimental (cutting edge!)
+✅ **LATEST MODEL**: Gemini 2.5 Flash Preview (February 2025 - NEWEST!)
 ✅ **MULTIMODAL**: Native image, video, audio support
 ✅ **LONG CONTEXT**: 1M+ token context window
 ✅ **BLAZING FAST**: Optimized for speed with flash architecture
 ✅ **COST-EFFECTIVE**: Very competitive pricing
-✅ **IMPROVED QUALITY**: Better reasoning and understanding than 1.5
+✅ **IMPROVED QUALITY**: Better reasoning, coding, and understanding than 2.0
+✅ **REAL-TIME**: Latest training data and capabilities
 
 ---
 
@@ -156,17 +157,18 @@ JENI: The capital of France is Paris. It's one of the most...
 
 ## Gemini Models Explained
 
-Your agents use **`gemini-2.0-flash-exp`** by default. Here are your options:
+Your agents use **`gemini-2.5-flash-preview-0205`** by default. Here are your options:
 
 ### Available Models
 
 | Model | Best For | Speed | Quality | Context |
 |-------|----------|-------|---------|---------|
-| `gemini-2.0-flash-exp` | 🚀 **LATEST!** Best all-around | Very Fast | ⭐⭐⭐⭐⭐ | 1M tokens |
-| `gemini-1.5-pro` | Complex reasoning tasks | Medium | ⭐⭐⭐⭐⭐ | 2M tokens |
+| `gemini-2.5-flash-preview-0205` | 🚀 **NEWEST!** Feb 2025 - Best all-around | Very Fast | ⭐⭐⭐⭐⭐ | 1M tokens |
+| `gemini-2.0-flash-exp` | Experimental 2.0 features | Very Fast | ⭐⭐⭐⭐ | 1M tokens |
+| `gemini-1.5-pro` | Complex reasoning tasks | Medium | ⭐⭐⭐⭐ | 2M tokens |
 | `gemini-1.5-flash` | Quick responses, high throughput | Fast | ⭐⭐⭐⭐ | 1M tokens |
 
-**Current setup**: All agents use `gemini-2.0-flash-exp` (latest experimental model!)
+**Current setup**: All agents use `gemini-2.5-flash-preview-0205` (February 2025 preview - latest and greatest!)
 
 ### Change Model Per Agent
 
@@ -202,7 +204,7 @@ Edit `agents/*.agent.json`:
                    │
 ┌──────────────────▼───────────────────────┐
 │         Google Gemini API                │
-│  - gemini-2.0-flash-exp model                  │
+│  - gemini-2.5-flash-preview-0205 model                  │
 │  - System instructions (your prompts)    │
 │  - Chat sessions per user                │
 └──────────────────┬───────────────────────┘
@@ -236,7 +238,7 @@ Each `.agent.json` file defines:
 {
   "name": "JENI",
   "description": "Primary Personal AI Assistant",
-  "model": "gemini-2.0-flash-exp",                    // Gemini model
+  "model": "gemini-2.5-flash-preview-0205",                    // Gemini model
   "system_prompt_file": "../.agent/rules/JENI.md",  // System instructions
   "temperature": 0.7,                           // Creativity (0.0 - 1.0)
   "max_tokens": 4096,                          // Max response length
@@ -551,7 +553,7 @@ python3 main.py
 
 ### Test Gemini API
 ```bash
-python3 -c "import google.generativeai as genai; import os; from dotenv import load_dotenv; load_dotenv(); genai.configure(api_key=os.getenv('GEMINI_API_KEY')); model = genai.GenerativeModel('gemini-2.0-flash-exp'); response = model.generate_content('Hello'); print(response.text)"
+python3 -c "import google.generativeai as genai; import os; from dotenv import load_dotenv; load_dotenv(); genai.configure(api_key=os.getenv('GEMINI_API_KEY')); model = genai.GenerativeModel('gemini-2.5-flash-preview-0205'); response = model.generate_content('Hello'); print(response.text)"
 ```
 
 ### Check Loaded Agents
